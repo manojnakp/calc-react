@@ -1,5 +1,5 @@
 {
-  "name": "Calc",
+  "name": "calc",
   "version": "1.0.0",
   "description": "calculator made using react-tailwind toolchain",
   "main": "src/index.jsx",

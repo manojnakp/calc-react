@@ -9,7 +9,7 @@ export default {
   mode: "development", // "production" | "development" | "none"
   // default entry "./src"
   entry: {
-    main: "./src/strcalc.js",
+    main: "./src/index.jsx",
   },
   output: {
     // options related to how webpack emits results
