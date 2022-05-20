@@ -19,6 +19,7 @@
     ],
     "rules": {
         "import/extensions": ["error", "ignorePackages"],
-        "no-restricted-syntax": "off"
+        "no-restricted-syntax": "off",
+        "react/prop-types": "off"
     }
 }
