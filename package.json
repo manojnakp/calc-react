@@ -1,5 +1,5 @@
 {
-  "name": "calc",
+  "name": "calc-react",
   "version": "1.0.0",
   "description": "calculator made using react-tailwind toolchain",
   "main": "src/index.jsx",
@@ -8,7 +8,7 @@
     "start": "npm run watch",
     "build": "webpack build",
     "build:css": "tailwindcss -o dist/tailwind.css -c tailwind.config.cjs",
-    "clear:dist": "rm dist/*",
+    "clear:dist": "rm dist/assets/*",
     "lint": "eslint \"src/*.{js,jsx}\"",
     "lint:fix": "eslint --fix \"src/*.{js,jsx}\"",
     "watch": "webpack serve",
@@ -21,6 +21,7 @@
     "mobile",
     "framework",
     "react",
+    "reactjs",
     "tailwind",
     "tailwindcss",
     "calculator",
