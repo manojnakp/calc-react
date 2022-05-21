@@ -29,7 +29,7 @@ function HList({ history, clear }) {
     const lim = limit - INC;
     setLimit(lim < 10 ? 10 : lim);
   }
-  const classes = ['absolute bg-neutral-200 z-10 flex flex-col w-[80%] left-[10%] overflow-y-auto transition-all'];
+  const classes = ['absolute bg-neutral-200 z-10 flex flex-col w-[80%] left-[10%] overflow-y-auto transition-all m-2'];
   if (!shown) {
     classes.push('max-h-0');
   } else {
@@ -41,17 +41,17 @@ function HList({ history, clear }) {
   ));
   return (
     <>
-      <CloseBtn shown={shown} onClick={toggle} />
-      <div className={classes.join(' ')}>
+      <CloseBtn shown={shown} onClick={toggle} aria-controls="history-collapsible" aria-expanded={shown} />
+      <div className={classes.join(' ')} aria-hidden={!shown} id="history-collapsible">
         {list}
         <div className="m-2 text-center">{list.length ? '' : 'No history'}</div>
-        <div className="flex flex-row justify-evenly">
+        <div className="flex flex-row justify-center">
           {
             list.length ?
               <>
-                <button type="button" className="bg-white p-2 m-2 rounded w-20" onClick={decrement}>Less</button>
-                <button type="button" className="bg-white p-2 m-2 rounded w-20" onClick={clear}>Clear</button>
-                <button type="button" className="bg-white p-2 m-2 rounded w-20" onClick={increment}>More</button>
+                <button type="button" className="bg-white text-sm sm:text-base p-2 m-1 sm:m-2 rounded w-1/3 hover:bg-gray-50 hover:ring transition shadow-sm" onClick={decrement}>Less</button>
+                <button type="button" className="bg-white text-sm sm:text-base p-2 m-1 sm:m-2 rounded w-1/3 hover:bg-gray-50 hover:ring transition shadow-sm" onClick={clear}>Clear</button>
+                <button type="button" className="bg-white text-sm sm:text-base p-2 m-1 sm:m-2 rounded w-1/3 hover:bg-gray-50 hover:ring transition shadow-sm" onClick={increment}>More</button>
               </> :
               ''
           }

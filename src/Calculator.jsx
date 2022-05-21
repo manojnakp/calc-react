@@ -8,12 +8,17 @@ function onDigit(digit) {
   const { now } = this.state;
   const old = now.new;
   const state = clearOld();
-  if (now.old) {
-    state.new = `${digit}`;
-  } else if (old === '0') {
-    state.new = `${digit}`;
+  let flag = true;
+  if (now.old || old === '0') {
+    flag = false;
+  }
+  if (digit === '%') {
+    flag = true;
+  }
+  if (flag) {
+    state.new = `${old}${digit}`
   } else {
-    state.new = `${old}${digit}`;
+    state.new = `${digit}`;
   }
   this.setState({ now: state });
 }
@@ -69,7 +74,7 @@ function onEquals() {
   const old = now.new;
   const input = /[/*+-]/.test(old.at(-1)) ? old.slice(0, -1) : old;
   /* eslint-disable-next-line no-eval */
-  const output = parseFloat(eval(input));
+  const output = parseFloat(eval(input.replaceAll('%', '/100')));
   const state = {
     old: `${input}=`,
     new: `${output.toFixed(6).replace(/\.?0*$/, '')}`,

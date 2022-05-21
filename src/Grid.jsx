@@ -26,6 +26,10 @@ function handler(value, props) {
     onDigit(value);
     return true;
   }
+  if (value === '%') {
+    onDigit(value);
+    return true;
+  }
   if (/[/*+-]/.test(value)) {
     onOperator(value);
     return true;
@@ -69,9 +73,10 @@ class Grid extends Component {
     return (
       <div className="grid w-[16rem] h-[20rem] text-xl sm:w-[24rem] sm:h-[25rem] grid-cols-4 gap-2 p-2 sm:text-2xl" onClick={this.onClick} role="presentation">
         <Button variant="red" value="c" key="ac">AC</Button>
+        <Button variant="blue" value="%" key="op-%">%</Button>
         <Button variant="blue" value="/" key="op-/">&#247;</Button>
         <Button variant="blue" value="*" key="op-*">&times;</Button>
-        <Button variant="blue" value="-" key="op--">-</Button>
+        <Button variant="minus" value="-" key="op--">-</Button>
         {array.map((value) => (
           <Button variant="simple" value={value} key={`d-${value}`}>{value}</Button>
         ))}
