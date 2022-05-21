@@ -85,6 +85,10 @@ function onEquals() {
   }
 }
 
+function clear() {
+  this.setState({ history: [] });
+}
+
 class Calculator extends Component {
   constructor(props) {
     super(props);
@@ -101,13 +105,14 @@ class Calculator extends Component {
     this.onOperator = onOperator.bind(this);
     this.onClear = onClear.bind(this);
     this.onEquals = onEquals.bind(this);
+    this.clearHistory = clear.bind(this);
   }
 
   render() {
     const { history, now } = this.state;
     return (
       <div id="calc" className="border font-mono bg-stone-50 shadow-md rounded-lg">
-        <History history={history} now={now} />
+        <History history={history} now={now} clear={this.clearHistory} />
         <Grid
           onDigit={this.onDigitHandler}
           onDot={this.onDotHandler}

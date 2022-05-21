@@ -2,10 +2,10 @@ import React from 'react';
 import HList from './HList.jsx';
 import Output from './Output.jsx';
 
-function History({ history, now }) {
+function History({ history, now, clear }) {
   return (
     <div className="relative">
-      <HList history={history} />
+      <HList history={history} clear={clear} />
       <Output now={now} />
     </div>
   );
