@@ -5,41 +5,46 @@ import Grid from './Grid.jsx';
 const clearOld = () => ({ old: '' });
 
 function onDigit(digit) {
-  const old = this.state.new;
+  const { now } = this.state;
+  const old = now.new;
   const state = clearOld();
-  if (this.state.old) {
+  if (now.old) {
     state.new = `${digit}`;
   } else if (old === '0') {
     state.new = `${digit}`;
   } else {
     state.new = `${old}${digit}`;
   }
-  this.setState(state);
+  this.setState({ now: state });
 }
 
 function onDot() {
-  const old = this.state.new;
+  const { now } = this.state;
+  const old = now.new;
   const re = /\d+\.(\d+)?$/;
   const state = clearOld();
   if (!re.test(old)) {
     state.new = `${old}.`;
   }
-  this.setState(state);
+  this.setState({ now: state });
 }
 
 function onBackSpace() {
-  const modified = this.state.new.slice(0, -1);
+  const { now } = this.state;
+  const old = now.new;
+  const modified = old.slice(0, -1);
   const state = clearOld();
   if (modified) {
     state.new = `${modified}`;
   } else {
     state.new = '0';
   }
-  this.setState(state);
+  this.setState({ now: state });
 }
 
 function onOperator(op) {
-  const old = this.state.new;
+  const { now } = this.state;
+  const old = now.new;
   const re = /[/*+-]/;
   const state = clearOld();
   if (re.test(old.slice(-1))) {
@@ -47,32 +52,48 @@ function onOperator(op) {
   } else {
     state.new = `${old}${op}`;
   }
-  this.setState(state);
+  this.setState({ now: state });
 }
 
 function onClear() {
   this.setState({
-    old: '',
-    new: '0',
+    now: {
+      old: '',
+      new: '0',
+    },
   });
 }
 
 function onEquals() {
-  const old = this.state.new;
+  const { now, history } = this.state;
+  const old = now.new;
   const input = /[/*+-]/.test(old.at(-1)) ? old.slice(0, -1) : old;
-  this.setState({
+  /* eslint-disable-next-line no-eval */
+  const output = parseFloat(eval(input));
+  const state = {
     old: `${input}=`,
-    /* eslint-disable-next-line no-eval */
-    new: `${eval(input)}`,
-  });
+    new: `${output.toFixed(6).replace(/\.?0*$/, '')}`,
+  };
+  const then = history.at(-1);
+  if (then && now.old === then.old) {
+    this.setState({ now: state });
+  } else {
+    this.setState({
+      now: state,
+      history: [...history, state],
+    });
+  }
 }
 
 class Calculator extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      old: '',
-      new: '0',
+      history: [],
+      now: {
+        old: '',
+        new: '0',
+      },
     };
     this.onDotHandler = onDot.bind(this);
     this.onDigitHandler = onDigit.bind(this);
@@ -83,10 +104,10 @@ class Calculator extends Component {
   }
 
   render() {
-    const { old, new: newer } = this.state;
+    const { history, now } = this.state;
     return (
       <div id="calc" className="border font-mono bg-stone-50 shadow-md rounded-lg">
-        <History old={old} new={newer} />
+        <History history={history} now={now} />
         <Grid
           onDigit={this.onDigitHandler}
           onDot={this.onDotHandler}
